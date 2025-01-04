@@ -225,16 +225,16 @@ const runGemini2Model = async prompt => {
             </InputGroup>
             <div style={{justifyContent:"end", display: "inline-flex", width:"100%", height:"40px"}}>
                   <Button style={{marginRight: "7px"}} onClick={()=>executeCode()} >Execute</Button>
-                      <Button style={{marginRight: "7px"}} onClick={()=>resetCode()} >Reset</Button>
+                  <Button style={{marginRight: "7px"}} onClick={()=>resetCode()} >Reset</Button>
                   <Form.Group style={{marginRight: "7px"}} controlId="formFile" className="mb-3">
                     <Form.Control onChange={(e)=> uploadTemplate(e.target.files[0])} type="file" />
                   </Form.Group>
                   <div className="tooltip" style={{marginRight: "7px"}}>
                       <span className="tooltiptext" style={{width:"200px"}}>{`Replaces <code snippet> with generated code in template`}</span>
-                  <Button  onClick={()=>generateTemplate()} >Genarate Template</Button>
+                      <Button disabled={!template} onClick={()=>generateTemplate()} >Generate Template</Button>
                   </div>
-                  <Button style={{marginRight: "7px"}} onClick={()=>copyCode()} >Copy Template</Button>
-                  <Button onClick={()=>saveCode()} >Save Template</Button>
+                  <Button disabled={!template} style={{marginRight: "7px"}} onClick={()=>copyCode()} >Copy Template</Button>
+                  <Button disabled={!template} onClick={()=>saveCode()} >Save Template</Button>
             </div>
             </Row>
          

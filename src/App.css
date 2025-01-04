@@ -153,7 +153,6 @@ content: '';
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
   opacity:1;
   z-index: 0;
 }
