@@ -207,7 +207,7 @@ const runGemini2Model = async prompt => {
         <Row style={{height:"93vh", backgroundColor:"#f7e3ff"}}>
           <Col>
           
-            <Row style={{height:"90%", padding:"10px", display:toggleBot?"none":"flex"}}>
+            <Row style={{height:"88%", padding:"10px", display:toggleBot?"none":"flex"}}>
             <InputGroup className="mb-3" style={{width:"100%", height:"70%"}}>
                      <Form.Control id="codeEditor"
                         style={{width:"100%", height:"100%"}} as="textarea" 
@@ -215,7 +215,7 @@ const runGemini2Model = async prompt => {
                         aria-describedby="basic-addon2"
                       />
             </InputGroup>
-            <InputGroup className="mb-3" style={{width:"100%", height:"20%"}}>
+            <InputGroup className="mb-3" style={{width:"100%", height:"13%"}}>
             <InputGroup.Text id="basic-addon1" style={{width:"100px"}} >Output</InputGroup.Text>
               <Form.Control
               id="codeOutput" 
@@ -238,9 +238,9 @@ const runGemini2Model = async prompt => {
             </div>
             </Row>
          
-            <Row style={{height:"90%", padding:"10px", display:toggleBot?"flex":"none"}}>
+            <Row style={{height:"88%", padding:"10px", display:toggleBot?"flex":"none"}}>
               {(model==="All" || model==="Gemini 1.5 Flash") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "600px"}}>
+                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "520px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
                 <Form.Check
                   type="switch"
@@ -255,7 +255,7 @@ const runGemini2Model = async prompt => {
                 </div>
               </Col>)}
               {(model==="All" || model==="Gemini 1.5 Pro") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "600px"}}>
+              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "520px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>   
                 <Form.Check
                   type="switch"
@@ -271,7 +271,7 @@ const runGemini2Model = async prompt => {
               </Col>)}
             </Row>
             <Row style={{height:"10%"}}>
-              <InputGroup className="mb-3">
+              <InputGroup className="mb-3" style={{marginBottom:"0rem !important"}}>
                   <InputGroup.Text id="basic-addon2">
                     <div className="tooltip" style={{width:"100%"}}>
                       <span className="tooltiptext">{toggleBot? "Generate Template": "Generate Code"}</span>
