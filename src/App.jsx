@@ -200,7 +200,7 @@ const runGemini2Model = async prompt => {
       <Container style={{height:"100vh"}}>
         <div id="toast" className="toast">Copied to clipboard</div>
         <Row style={{height:"7vh", backgroundColor:"#8004b2"}}>
-          <div style={{color: "white", fontFamily: "cursive", fontSize: "x-large", textAlign: "center", marginTop: "10px"}}>
+          <div style={{color: "white", fontFamily: "cursive", fontSize: "large", textAlign: "center", marginTop: "10px"}}>
             Your Code Just A Query Away
           </div>
         </Row>
