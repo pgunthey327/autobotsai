@@ -293,8 +293,8 @@ const runGemini2Model = async prompt => {
 
                       <Dropdown.Menu style={{zIndex:"1080"}}>
                         <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);setGeminiFlash(true);setGeminiPro(true);}}>All</Dropdown.Item>
-                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText); setGeminiPro(false)}}>Gemini 1.5 Flash</Dropdown.Item>
-                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);setGeminiFlash(false)}}>Gemini 1.5 Pro</Dropdown.Item>
+                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Flash</Dropdown.Item>
+                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Pro</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </InputGroup.Text>
