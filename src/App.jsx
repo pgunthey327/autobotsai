@@ -40,6 +40,7 @@ const chat2 = genModel2.startChat({
 });
 
 function App() {
+  const [selectedLanguage, setSelectedLanguage] = useState("JavaScript");
   const [model, selectModel] = useState("All");
   const [userMessage, setUserMessage] = useState("");
   const [toggleBot, setToggleBot] = useState(true);
@@ -75,35 +76,37 @@ const runGemini2Model = async prompt => {
 }
 
     const handleUser1Message = async (userMessage) => {
+      const prompt = `Generate ${selectedLanguage} code for: ${userMessage}`;
       setUserMessage("");
       const newUserMessages = [
           ...messages1,
           { id: uuidv4(), text: userMessage, sender: "user" },
       ];
       setMessages1(newUserMessages);
-      const botResponse = await runGemini1Model(userMessage);
-      const newBotMessages = [
+      const botResponse = await runGemini1Model(prompt);
+        const newBotMessages = [
           ...messages1,
           { id: uuidv4(), text: userMessage, sender: "user" },
           { id: uuidv4(), text: botResponse, sender: "bot" }
-      ];
-      setMessages1(newBotMessages);
+        ];
+        setMessages1(newBotMessages);
     };
 
     const handleUser2Message = async (userMessage) => {
+      const prompt = `Generate ${selectedLanguage} code for: ${userMessage}`;
       setUserMessage("");
       const newUserMessages = [
           ...messages2,
           { id: uuidv4(), text: userMessage, sender: "user" },
       ];
       setMessages2(newUserMessages);
-      const botResponse = await runGemini2Model(userMessage);
-      const newBotMessages = [
+      const botResponse = await runGemini2Model(prompt);
+        const newBotMessages = [
           ...messages2,
           { id: uuidv4(), text: userMessage, sender: "user" },
           { id: uuidv4(), text: botResponse, sender: "bot" }
-      ];
-      setMessages2(newBotMessages);
+        ];
+        setMessages2(newBotMessages);
     };
 
     const executeCode = () => {
@@ -302,6 +305,19 @@ const runGemini2Model = async prompt => {
                       placeholder="Enter Message"
                       aria-describedby="basic-addon2"
                     />
+                  <InputGroup.Text id="basic-addon2">
+                    <Dropdown>
+                      <Dropdown.Toggle style={{width:"120px"}}variant="primary" id="dropdown-basic">
+                        {selectedLanguage}
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => setSelectedLanguage("JavaScript")}>JavaScript</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setSelectedLanguage("Python")}>Python</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setSelectedLanguage("Java")}>Java</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </InputGroup.Text>
                   <InputGroup.Text id="basic-addon2">
                     <Button disabled={loader1 || loader2 || !toggleBot} style={{width: "100px"}} variant="primary" onClick={()=>{
                       if(geminiFlash){
