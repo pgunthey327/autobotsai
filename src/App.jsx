@@ -7,11 +7,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 import Chatbot from './Chatbot';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 import beautify from "js-beautify";
-
+import {Buffer} from 'buffer';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 
@@ -40,7 +42,7 @@ const chat2 = genModel2.startChat({
 });
 
 function App() {
-  const [selectedLanguage, setSelectedLanguage] = useState("JavaScript");
+  const [selectedLanguage, setSelectedLanguage] = useState("Any Language");
   const [model, selectModel] = useState("All");
   const [userMessage, setUserMessage] = useState("");
   const [toggleBot, setToggleBot] = useState(true);
@@ -58,54 +60,82 @@ function App() {
   const [loader2, setLoader2] = useState(false);
   const [geminiFlash, setGeminiFlash] = useState(true);
   const [geminiPro, setGeminiPro] = useState(true);
+  const [imageSelected, setImageSelected] = useState(null);
   
 
   const runGemini1Model = async prompt => {
-    setLoader1(true);
     const result = await chat1.sendMessage(prompt);
-    console.log("response", result);
-    setLoader1(false);
     return result.response.text();
 }
 
 const runGemini2Model = async prompt => {
-  setLoader2(true);
   const result = await chat2.sendMessage(prompt);
-  setLoader2(false);
   return result.response.text();
 }
 
+    const generateGemini1Content = async prompt => {
+          const result = await genModel1.generateContent([
+              {
+                  inlineData: {
+                      data: Buffer.from(imageSelected).toString("base64"),
+                      mimeType: "image/jpeg",
+                  },
+              },
+              prompt,
+          ]);
+          await runGemini1Model(result.response.text() + " \n Add above content to chat history");
+          return result.response.text();
+    }
+
+    const generateGemini2Content = async prompt => {
+          const result = await genModel2.generateContent([
+            {
+                inlineData: {
+                    data: Buffer.from(imageSelected).toString("base64"),
+                    mimeType: "image/jpeg",
+                },
+            },
+            prompt,
+        ]);
+        await runGemini2Model(result.response.text() + " \n Add above content to chat history");
+        return result.response.text();
+    }
+
     const handleUser1Message = async (userMessage) => {
-      const prompt = `Generate ${selectedLanguage} code for: ${userMessage}`;
+      setLoader1(true);
+      const prompt = selectedLanguage==="Any Language"?userMessage:`Generate ${selectedLanguage} code for: ${userMessage}`;
       setUserMessage("");
       const newUserMessages = [
           ...messages1,
-          { id: uuidv4(), text: userMessage, sender: "user" },
+          { id: uuidv4(), text: userMessage, sender: "user", imageSelected },
       ];
       setMessages1(newUserMessages);
-      const botResponse = await runGemini1Model(prompt);
+      const botResponse = imageSelected ? await generateGemini1Content(prompt) : await runGemini1Model(prompt);
         const newBotMessages = [
           ...messages1,
-          { id: uuidv4(), text: userMessage, sender: "user" },
+          { id: uuidv4(), text: userMessage, sender: "user", imageSelected },
           { id: uuidv4(), text: botResponse, sender: "bot" }
         ];
+        setLoader1(false);
         setMessages1(newBotMessages);
     };
 
     const handleUser2Message = async (userMessage) => {
-      const prompt = `Generate ${selectedLanguage} code for: ${userMessage}`;
+      setLoader2(true);
+      const prompt = selectedLanguage==="Any Language"?userMessage:`Generate ${selectedLanguage} code for: ${userMessage}`;
       setUserMessage("");
       const newUserMessages = [
           ...messages2,
-          { id: uuidv4(), text: userMessage, sender: "user" },
+          { id: uuidv4(), text: userMessage, sender: "user", imageSelected },
       ];
       setMessages2(newUserMessages);
-      const botResponse = await runGemini2Model(prompt);
+      const botResponse = imageSelected ? await generateGemini2Content(prompt) : await runGemini2Model(prompt);
         const newBotMessages = [
           ...messages2,
-          { id: uuidv4(), text: userMessage, sender: "user" },
+          { id: uuidv4(), text: userMessage, sender: "user", imageSelected },
           { id: uuidv4(), text: botResponse, sender: "bot" }
         ];
+        setLoader2(false);
         setMessages2(newBotMessages);
     };
 
@@ -143,6 +173,18 @@ const runGemini2Model = async prompt => {
       catch(e){
           code.value = "Compilation Failed - " + e;
       }
+    }
+
+
+    const searchWithImage = (file) => {
+      let fileData = new FileReader();
+      fileData.onloadend = handleImage;
+      fileData.readAsArrayBuffer(file);
+    }
+
+    const handleImage = async (e) => {
+      const content = e.target.result;
+      setImageSelected(content);
     }
 
     const handleFile = (e) => {
@@ -307,16 +349,39 @@ const runGemini2Model = async prompt => {
                     />
                   <InputGroup.Text id="basic-addon2">
                     <Dropdown>
-                      <Dropdown.Toggle style={{width:"120px"}}variant="primary" id="dropdown-basic">
+                      <Dropdown.Toggle style={{width:"160px"}}variant="primary" id="dropdown-basic">
                         {selectedLanguage}
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => setSelectedLanguage("Any Language")}>Any Language</Dropdown.Item>
                         <Dropdown.Item onClick={() => setSelectedLanguage("JavaScript")}>JavaScript</Dropdown.Item>
                         <Dropdown.Item onClick={() => setSelectedLanguage("Python")}>Python</Dropdown.Item>
                         <Dropdown.Item onClick={() => setSelectedLanguage("Java")}>Java</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setSelectedLanguage("TypeScript")}>TypeScript</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
+                  </InputGroup.Text>
+                    <InputGroup.Text id="basic-addon2">
+                    <OverlayTrigger
+                        trigger="click"
+                        key="top"
+                        placement="top"
+                        overlay={
+                          <Popover id={`popover-positioned-top`}>
+                            <Popover.Body>
+                               <Form.Group style={{marginRight: "7px"}} controlId="formFile" className="mb-3">
+                                  <Form.Control onChange={(e)=> searchWithImage(e.target.files[0])} type="file" />
+                                </Form.Group>
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                      <div className="tooltip">
+                        <span className="tooltiptext">Upload Image</span>
+                        <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#B197FC" d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
+                      </div>
+                      </OverlayTrigger>
                   </InputGroup.Text>
                   <InputGroup.Text id="basic-addon2">
                     <Button disabled={loader1 || loader2 || !toggleBot} style={{width: "100px"}} variant="primary" onClick={()=>{
@@ -326,6 +391,7 @@ const runGemini2Model = async prompt => {
                       if(geminiPro){
                         handleUser2Message(userMessage);
                       }
+                      setImageSelected(null);
                       }}>Send</Button>
                   </InputGroup.Text>
               </InputGroup>

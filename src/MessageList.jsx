@@ -25,7 +25,14 @@ const renderMessage = msg => {
     `<div id="toast" className="toast">Copied to clipboard</div>
     <div className="tooltip" style="width:100%">
     <pre style="cursor:grab" >`).replaceAll("</pre>", '</pre> <span className="tooltiptext">Click to copy</span></div>' );
-  return parse(message);
+    return parse(message);
+}
+
+const renderImage = img => {
+   var blob = new Blob( [ img ], { type: "image/jpeg" } );
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL( blob );
+    return <img src={imageUrl} alt="" style={{maxHeight:"200px", maxWidth:"200px"}}></img>;
 }
 
 // Show the toast notification
@@ -51,6 +58,7 @@ const MessageList = ({ messages, loader }) => {
               key={message.id}
               className={`message ${message.sender === 'bot' ? 'bot-message' : 'user-message'}`}
             >
+              {message.imageSelected && renderImage(message.imageSelected)}
               {renderMessage(message.text)}
             </div>
             
