@@ -167,7 +167,6 @@ const runGemini2Model = async prompt => {
       const code = document.getElementById("codeEditor");
       try {
           const tem = beautify(template.replace("<code snippet>", `${code.value}`));
-            console.log("tem", tem);
             code.value = tem;
       }
       catch(e){
@@ -242,7 +241,7 @@ const runGemini2Model = async prompt => {
     }
 
   return (
-      <Container style={{height:"100vh"}}>
+      <div style={{height:"100vh", width:"100vw"}}>
         <div id="toast" className="toast">Copied to clipboard</div>
         <Row style={{height:"7vh", backgroundColor:"#8004b2"}}>
           <div style={{color: "white", fontFamily: "cursive", fontSize: "large", textAlign: "center", marginTop: "10px"}}>
@@ -276,16 +275,16 @@ const runGemini2Model = async prompt => {
                   </Form.Group>
                   <div className="tooltip" style={{marginRight: "7px"}}>
                       <span className="tooltiptext" style={{width:"200px"}}>{`Replaces <code snippet> with generated code in template`}</span>
-                      <Button disabled={!template} onClick={()=>generateTemplate()} >Generate Template</Button>
+                      <Button disabled={!template} onClick={()=>generateTemplate()} >Generate Code</Button>
                   </div>
-                  <Button disabled={!template} style={{marginRight: "7px"}} onClick={()=>copyCode()} >Copy Template</Button>
-                  <Button disabled={!template} onClick={()=>saveCode()} >Save Template</Button>
+                  <Button disabled={!template} style={{marginRight: "7px"}} onClick={()=>copyCode()} >Copy Code</Button>
+                  <Button disabled={!template} onClick={()=>saveCode()} >Save Code</Button>
             </div>
             </Row>
          
             <Row style={{height:"88%", padding:"10px", display:toggleBot?"flex":"none"}}>
               {(model==="All" || model==="Gemini 1.5 Flash") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "520px"}}>
+                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "720px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
                 <Form.Check
                   type="switch"
@@ -300,7 +299,7 @@ const runGemini2Model = async prompt => {
                 </div>
               </Col>)}
               {(model==="All" || model==="Gemini 1.5 Pro") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "520px"}}>
+              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "720px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>   
                 <Form.Check
                   type="switch"
@@ -317,72 +316,80 @@ const runGemini2Model = async prompt => {
             </Row>
             <Row style={{height:"10%"}}>
               <InputGroup className="mb-3" style={{marginBottom:"0rem !important"}}>
-                  <InputGroup.Text id="basic-addon2">
+                  <InputGroup.Text className="button-click" onClick={() => setToggleBot(!toggleBot)} id="basic-addon2">
                     <div className="tooltip" style={{width:"100%"}}>
                       <span className="tooltiptext">{toggleBot? "Generate Template": "Generate Code"}</span>
-                      {toggleBot && (<svg onClick={() => setToggleBot(!toggleBot)} style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#B197FC" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>)}
-                      {!toggleBot && (<svg onClick={() => setToggleBot(!toggleBot)} style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M160 368c26.5 0 48 21.5 48 48l0 16 72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6L448 368c8.8 0 16-7.2 16-16l0-288c0-8.8-7.2-16-16-16L64 48c-8.8 0-16 7.2-16 16l0 288c0 8.8 7.2 16 16 16l96 0zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-21.3 0-6.4 0-.3 0-4 0-48-48 0-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L208 492z"/></svg>)}
+                      {toggleBot && (<svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#B197FC" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>)}
+                      {!toggleBot && (<svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M160 368c26.5 0 48 21.5 48 48l0 16 72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6L448 368c8.8 0 16-7.2 16-16l0-288c0-8.8-7.2-16-16-16L64 48c-8.8 0-16 7.2-16 16l0 288c0 8.8 7.2 16 16 16l96 0zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3l0-21.3 0-6.4 0-.3 0-4 0-48-48 0-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L448 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-138.7 0L208 492z"/></svg>)}
                     </div>
                   </InputGroup.Text>
-                  <InputGroup.Text id="basic-addon2">
-                    <div className="tooltip">
-                      <span className="tooltiptext">Reset Chat</span>
-                      <svg style={{width:"20px"}} onClick={() => resetChat()} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160 352 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l111.5 0c0 0 0 0 0 0l.4 0c17.7 0 32-14.3 32-32l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 35.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1L16 432c0 17.7 14.3 32 32 32s32-14.3 32-32l0-35.1 17.6 17.5c0 0 0 0 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.8c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352l34.4 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48.4 288c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/></svg>
-                    </div>
-                  </InputGroup.Text>
-                  <InputGroup.Text id="basic-addon2" >
-                    <Dropdown>
-                      <Dropdown.Toggle disabled={!toggleBot} style={{width: "160px"}} variant="primary" id="dropdown-basic">
-                        {model}
-                      </Dropdown.Toggle>
+                  <div>
+                    <div style={{display:"flex", flexDirection:"row"}}>
+                    <InputGroup.Text id="basic-addon2" className="button-click">
+                      <OverlayTrigger
+                      rootClose={true}
+                          trigger="click"
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Popover id={`popover-positioned-top`}>
+                              <Popover.Body>
+                                <Form.Group style={{marginRight: "7px"}} controlId="formFile" className="mb-3">
+                                    <Form.Control onChange={(e)=> searchWithImage(e.target.files[0])} type="file" />
+                                  </Form.Group>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                        <div className="tooltip">
+                          <span className="tooltiptext">{imageSelected ? "Image Uploaded": "Upload Image"}</span>
+                        {imageSelected && ( <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6l96 0 32 0 208 0c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>)}
+                        {!imageSelected && ( <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#B197FC" d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>)}
+                        </div>
+                        </OverlayTrigger>
+                      </InputGroup.Text>
+                      <InputGroup.Text id="basic-addon2" >
+                      <Dropdown>
+                        <Dropdown.Toggle disabled={!toggleBot} style={{width: "160px"}} variant="primary" id="dropdown-basic">
+                          {model}
+                        </Dropdown.Toggle>
 
-                      <Dropdown.Menu style={{zIndex:"1080"}}>
-                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);setGeminiFlash(true);setGeminiPro(true);}}>All</Dropdown.Item>
-                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Flash</Dropdown.Item>
-                        <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Pro</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </InputGroup.Text>
+                        <Dropdown.Menu style={{zIndex:"1080"}}>
+                          <Dropdown.Item onClick={e=>{selectModel(e.target.innerText)}}>All</Dropdown.Item>
+                          <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Flash</Dropdown.Item>
+                          <Dropdown.Item onClick={e=>{selectModel(e.target.innerText);}}>Gemini 1.5 Pro</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      </InputGroup.Text>
+                    </div>
+                    <div style={{display:"flex", flexDirection:"row"}}>
+                      <InputGroup.Text onClick={() => resetChat()} id="basic-addon2" className="button-click">
+                        <div className="tooltip">
+                          <span className="tooltiptext">Reset Chat</span>
+                          <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160 352 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l111.5 0c0 0 0 0 0 0l.4 0c17.7 0 32-14.3 32-32l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 35.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1L16 432c0 17.7 14.3 32 32 32s32-14.3 32-32l0-35.1 17.6 17.5c0 0 0 0 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.8c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352l34.4 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48.4 288c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/></svg>
+                        </div>
+                      </InputGroup.Text>
+                      <InputGroup.Text id="basic-addon2">
+                        <Dropdown>
+                          <Dropdown.Toggle disabled={!toggleBot} style={{width:"160px"}}variant="primary" id="dropdown-basic">
+                            {selectedLanguage}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => setSelectedLanguage("Any Language")}>Any Language</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setSelectedLanguage("JavaScript")}>JavaScript</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setSelectedLanguage("Python")}>Python</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setSelectedLanguage("Java")}>Java</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setSelectedLanguage("TypeScript")}>TypeScript</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </InputGroup.Text>
+                    </div>
+                  </div>
                     <Form.Control disabled={!toggleBot} as="textarea" value={userMessage} onChange={e=>setUserMessage(e.target.value)}
                       placeholder="Enter Message"
                       aria-describedby="basic-addon2"
                     />
-                  <InputGroup.Text id="basic-addon2">
-                    <Dropdown>
-                      <Dropdown.Toggle style={{width:"160px"}}variant="primary" id="dropdown-basic">
-                        {selectedLanguage}
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => setSelectedLanguage("Any Language")}>Any Language</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSelectedLanguage("JavaScript")}>JavaScript</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSelectedLanguage("Python")}>Python</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSelectedLanguage("Java")}>Java</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setSelectedLanguage("TypeScript")}>TypeScript</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </InputGroup.Text>
-                    <InputGroup.Text id="basic-addon2">
-                    <OverlayTrigger
-                        trigger="click"
-                        key="top"
-                        placement="top"
-                        overlay={
-                          <Popover id={`popover-positioned-top`}>
-                            <Popover.Body>
-                               <Form.Group style={{marginRight: "7px"}} controlId="formFile" className="mb-3">
-                                  <Form.Control onChange={(e)=> searchWithImage(e.target.files[0])} type="file" />
-                                </Form.Group>
-                            </Popover.Body>
-                          </Popover>
-                        }
-                      >
-                      <div className="tooltip">
-                        <span className="tooltiptext">Upload Image</span>
-                        <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#B197FC" d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
-                      </div>
-                      </OverlayTrigger>
-                  </InputGroup.Text>
                   <InputGroup.Text id="basic-addon2">
                     <Button disabled={loader1 || loader2 || !toggleBot} style={{width: "100px"}} variant="primary" onClick={()=>{
                       if(geminiFlash){
@@ -399,7 +406,7 @@ const runGemini2Model = async prompt => {
             </Row>
           </Col>
         </Row>
-    </Container>
+    </div>
   );
 }
 
