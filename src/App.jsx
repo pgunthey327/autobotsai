@@ -177,10 +177,10 @@ const runGemini2Model = async prompt => {
         else {
           response = await pistonClient.execute(language, code.value, { language: version });
           if (response.run.stdout !== "") {
-            output.innerText = response.run.stdout;
+            output.innerText = response?.run?.stdout;
           }
           if (response.run.stderr !== "") {
-            output.innerText = response.run.stderr;
+            output.innerText = response?.run?.stderr;
           }
         }
       }
@@ -189,7 +189,7 @@ const runGemini2Model = async prompt => {
           output.innerText = "Compilation Failed - " + e;
         }
         else {
-          output.innerText = "Compilation Failed - " + e + response.run.stderr;
+          output.innerText = "Compilation Failed - " + e + response?.run?.stderr;
         }
       }
     }
@@ -325,7 +325,7 @@ const runGemini2Model = async prompt => {
                       {
                         runTimeEnv && runTimeEnv.map((env, index) => {
                           const value = `${env.language}:${env.version}`; // Concatenate language and version
-                          return <option value={value} key={index}>{`${env.language} ${env.version}`}</option>;
+                          return <option value={value} key={index}>{`${env.language}:${env.version}`}</option>;
                         })
                       }
                     </Form.Select>
