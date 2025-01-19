@@ -299,7 +299,7 @@ const runGemini2Model = async prompt => {
     const modalTypes = ["All AI Modal", "Gemini 1.5 Flash", "Gemini 1.5 Pro"];
     
   return (
-      <div style={{height:"100vh", width:"100vw"}}>
+      <div style={{height:"99vh", width:"99vw"}}>
         <div id="toast" className="toast">Copied to clipboard</div>
         <Row style={{height:"7vh", backgroundColor:"#8004b2"}}>
           <div style={{color: "white", fontFamily: "cursive", fontSize: "large", textAlign: "center", marginTop: "10px"}}>
@@ -309,7 +309,7 @@ const runGemini2Model = async prompt => {
         <Row style={{height:"93vh", backgroundColor:"#f7e3ff"}}>
           <Col>
           
-            <Row style={{height:"88%", padding:"10px", display:toggleBot?"none":"flex"}}>
+            <Row style={{height:"84%", padding:"10px", display:toggleBot?"none":"flex"}}>
             <InputGroup className="mb-3" style={{width:"100%", height:"70%"}}>
                      <Form.Control id="codeEditor"
                         style={{width:"100%", height:"100%"}} as="textarea" 
@@ -380,7 +380,7 @@ const runGemini2Model = async prompt => {
             </div>
             </Row>
          
-            <Row style={{height:"88%", padding:"10px", display:toggleBot?"flex":"none"}}>
+            <Row style={{height:"84%", padding:"10px", display:toggleBot?"flex":"none"}}>
               {(model==="All AI Modal" || model==="Gemini 1.5 Flash") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                 <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "720px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
