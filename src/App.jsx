@@ -468,7 +468,7 @@ const runGemini2Model = async prompt => {
                         <option value="Any Language">Any Language</option>
                         {
                           runTimeEnv && runTimeEnv.map((env, index) => {
-                            const value = `${env.language}:${env.version}`; // Concatenate language and version
+                            const value = env.language; // Concatenate language and version
                             return <option value={value} key={index}>{`${env.language} ${env.version}`}</option>;
                           })
                         }
