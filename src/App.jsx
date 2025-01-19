@@ -149,6 +149,7 @@ const runGemini2Model = async prompt => {
           { id: uuidv4(), text: userMessage, sender: "user", imageSelected },
       ];
       setMessages2(newUserMessages);
+      setTimeout(async()=>{
       let botResponse;
       try{
         botResponse = imageSelected ? await generateGemini2Content(prompt) : await runGemini2Model(prompt);
@@ -163,6 +164,7 @@ const runGemini2Model = async prompt => {
         ];
         setLoader2(false);
         setMessages2(newBotMessages);
+      }, 600);
     };
 
     const executeCode = async () => {
