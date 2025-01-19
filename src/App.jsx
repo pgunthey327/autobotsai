@@ -15,7 +15,7 @@ import piston from "piston-client";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const pistonClient = piston({ server: "https://emkc.org" });
-const genAI = new GoogleGenerativeAI("AIzaSyAa_2Ja3mLV9DLDpen0-EqJHp7Ef2ecS-M");
+const genAI = new GoogleGenerativeAI("");
 const genModel1 = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const chat1 = genModel1.startChat({
   history: [{
