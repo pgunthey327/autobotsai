@@ -103,6 +103,10 @@
   cursor: pointer;
 }
 
+.mb-3 {
+  margin-bottom: 0rem !important;
+}
+
 .cbContainer {
   flex-direction: row;
   justify-self: center;

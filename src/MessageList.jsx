@@ -5,7 +5,7 @@ import parse  from 'html-react-parser';
 import './App.css';
 
 document.body.addEventListener("click", function (evt) {
-  if(evt.target.localName === "pre"){
+  if(evt.target.localName === "pre" || evt.target.localName === "code"){
     const textArea = document.createElement("textarea");
     textArea.value = evt.target.innerText;
     document.body.appendChild(textArea);
