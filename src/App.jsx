@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import beautify from "js-beautify";
 import { Buffer } from 'buffer';
 import piston from "piston-client";
+import Spinner from 'react-bootstrap/Spinner';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const pistonClient = piston({ server: "https://emkc.org" });
@@ -64,6 +65,7 @@ function App() {
   const [selectEnv, setSelectEnv] = useState("");
   const [selectEnv2, setSelectEnv2] = useState("");
   const availableRuntimes = ["java", "javascript", "python", "typescript", "go", "c++", "python2", "c"];
+  const [exeLoader, setExeLoader] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -173,27 +175,29 @@ const runGemini2Model = async prompt => {
       const output = document.getElementById("codeOutput");
       let [language, version] = selectEnv2.split(':');
       try {
+        setExeLoader(true);
         if(language.toLowerCase().includes("javascript")){
-          output.innerText = eval(code.value);
+          output.value = eval(code.value);
         }
         else {
-          response = await pistonClient.execute(language, code.value, { language: version });
+          response = await pistonClient.execute(language, code.value, { language: version });      
           if (response.run.stdout !== "") {
-            output.innerText = response?.run?.stdout;
+            output.value = response?.run?.stdout;
           }
-          if (response.run.stderr !== "") {
-            output.innerText = response?.run?.stderr;
+          else if (response.run.stderr !== "") {
+            output.value = response?.run?.stderr;
           }
         }
       }
       catch(e){
         if(language.toLowerCase().includes("javascript")){
-          output.innerText = "Compilation Failed - " + e;
+          output.value = "Compilation Failed - " + e;
         }
         else {
-          output.innerText = "Compilation Failed - " + e + response?.run?.stderr;
+          output.value = "Compilation Failed - " + e + response?.run?.stderr;
         }
       }
+      setExeLoader(false);
     }
 
     const saveCode = () => {
@@ -334,8 +338,8 @@ const runGemini2Model = async prompt => {
                     <div style={{display:"flex", flexDirection:"row", width:"200px"}}>
                     <div className="tooltip" style={{width:"50%"}}>
                       <span className="tooltiptext">Execute</span>
-                      <InputGroup.Text onClick={()=>executeCode()} style={{justifyContent:'center'}} id="basic-addon2" className="button-click">
-                        <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#B197FC" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+                      <InputGroup.Text onClick={()=>{if(!exeLoader){executeCode()}}} style={{justifyContent:'center', height:"40px"}} id="basic-addon2" className="button-click">
+                      {exeLoader ? <Spinner style={{color:"#B197FC"}} animation="border" role="status"/> :  <svg style={{width:"20px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#B197FC" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>}
                       </InputGroup.Text>
                     </div>
                     <div className="tooltip" style={{width:"50%"}}>
@@ -492,7 +496,7 @@ const runGemini2Model = async prompt => {
                           }
                           setImageSelected(null);
                           }}>
-                          <svg  style={{width:"46px", height:"25px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+                          {(loader1 || loader2) ?<Spinner style={{color:"#B197FC"}} animation="border" role="status"/>:<svg  style={{width:"46px", height:"25px"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#B197FC" d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>}
                         </InputGroup.Text>
                       </div>
               </InputGroup>
