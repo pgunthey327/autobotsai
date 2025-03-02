@@ -64,7 +64,7 @@
 }
 
 .user-message {
-  background-color: steelblue;
+  background-color: #6f9b92;
   color: white;
   width:70%;
   padding: 7px;
@@ -126,7 +126,7 @@ p {
 pre {
   flex-direction: row;
   text-align: left;
-  background-color: #cdc4ff;
+  background-color: #e8ebf8;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 5px

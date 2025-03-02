@@ -312,7 +312,7 @@ const runGemini2Model = async prompt => {
             Gen AI for Code Generation
           </div>
         </Row>
-        <Row style={{height:"93vh", backgroundColor:"#f7e3ff"}}>
+        <Row style={{height:"93vh"}}>
           <Col>
           
             <Row style={{height:"84%", padding:"10px", display:toggleBot?"none":"flex"}}>
