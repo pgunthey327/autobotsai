@@ -56,7 +56,7 @@ const MessageList = ({ messages, loader }) => {
           <div style={{width:"100%",display: "flex", flexDirection: "row", justifyContent: message.sender === 'bot' ? 'left' : 'right', marginBottom: "10px"}}>
             <div
               key={message.id}
-              className={`message ${message.sender === 'bot' ? 'bot-message' : 'user-message'}`}
+              className={`${message.sender === 'bot' ? 'bot-message' : 'user-message'}`}
             >
               {message.imageSelected && renderImage(message.imageSelected)}
               {renderMessage(message.text)}

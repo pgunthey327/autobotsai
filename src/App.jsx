@@ -307,9 +307,9 @@ const runGemini2Model = async prompt => {
   return (
       <div style={{height:"99vh", width:"99vw"}}>
         <div id="toast" className="toast">Copied to clipboard</div>
-        <Row style={{height:"7vh", backgroundColor:"#8004b2"}}>
-          <div style={{color: "white", fontFamily: "cursive", fontSize: "large", textAlign: "center", marginTop: "10px"}}>
-            Your Code Just A Query Away
+        <Row style={{height:"7vh", backgroundColor:"darkslategrey"}}>
+          <div style={{color: "white", fontSize: "large", textAlign: "left", marginTop: "10px", marginLeft:"10px"}}>
+            Gen AI for Code Generation
           </div>
         </Row>
         <Row style={{height:"93vh", backgroundColor:"#f7e3ff"}}>
@@ -388,7 +388,7 @@ const runGemini2Model = async prompt => {
          
             <Row style={{height:"84%", padding:"10px", display:toggleBot?"flex":"none"}}>
               {(model==="All AI Modal" || model==="Gemini 1.5 Flash") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center", width:"600px"}}>
-                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "720px"}}>
+                <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#e5dce8", maxWidth: "720px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
                 <Form.Check
                   type="switch"
@@ -403,7 +403,7 @@ const runGemini2Model = async prompt => {
                 </div>
               </Col>)}
               {(model==="All AI Modal" || model==="Gemini 1.5 Pro") && (<Col style={{display: "flex", flexDirection: "row", justifyContent: "center", width:"600px"}}>
-              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#b892c6", maxWidth: "720px"}}>
+              <div style={{width:"100%", height:"100%", padding:"10px", backgroundColor:"#e5dce8", maxWidth: "720px"}}>
                 <div style={{color: "black", fontSize: "x-large", textAlign: "center", marginBottom: "5px", borderBottom:"2px solid grey", display: "inline-flex", width: "100%", justifyContent: "space-between"}}>   
                 <Form.Check
                   type="switch"

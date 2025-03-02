@@ -54,20 +54,23 @@
     padding-right: 8px;
 }
 
-.message {
-  border-radius: 5px;
-}
-
 .bot-message {
-  background-color: #e3cff1;
+  background-color: white;
   width:80%;
   padding: 7px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
 }
 
 .user-message {
-  background-color: #f4d3ff;
+  background-color: steelblue;
+  color: white;
   width:70%;
   padding: 7px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  border-bottom-left-radius: 14px;
 }
 
 .input-box {
@@ -124,7 +127,8 @@ pre {
   flex-direction: row;
   text-align: left;
   background-color: #cdc4ff;
-  border-radius: 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   padding: 5px
 }
 
